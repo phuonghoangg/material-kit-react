@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 // @mui
 import { Link, Stack, IconButton, InputAdornment, TextField, Checkbox } from '@mui/material';
@@ -9,10 +9,13 @@ import { LoadingButton } from '@mui/lab';
 import { loginUser } from 'src/redux/apiRequest';
 
 import Iconify from '../../../components/iconify';
+import { useEffect } from 'react';
 
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
+  const user = useSelector((state)=>state.user.login?.currentUser)
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
@@ -20,13 +23,18 @@ export default function LoginForm() {
   const [password,setPassword] = useState('')
 
   const handleClick = () => {
-    // navigate('/dashboard', { replace: true });
     const newUser = {
       email,password
     }
     loginUser(newUser,dispatch)
+    navigate('/dashboard', { replace: true });
   };
 
+  useEffect(()=>{
+    if(user){
+      navigate('/dashboard',{ replace: true })
+    }
+  })
   return (
     <>
       <Stack spacing={3}>

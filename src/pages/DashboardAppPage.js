@@ -19,11 +19,14 @@ import {
   AppCurrentSubject,
   AppConversionRates,
 } from '../sections/@dashboard/app';
+import { useSelector } from 'react-redux';
 
 // ----------------------------------------------------------------------
 
 export default function DashboardAppPage() {
-  const [user,setUser] = useState('')
+  const user = useSelector((state)=>state.user.login?.currentUser)
+  
+  console.log(user);
   const theme = useTheme();
   const navigate = useNavigate()
   useEffect(()=>{
